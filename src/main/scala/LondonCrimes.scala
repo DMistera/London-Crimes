@@ -236,10 +236,9 @@ object LondonCrimes {
     val unionCrimes = crimes1.union(crimes2)
 
     unionCrimes
-      .select("lsoa_code", "value")
+      .select("lsoa_code", "value", "month", "year", "minor_category", "major_category")
       .join(locationsDB, unionCrimes("lsoa_code") === locationsDB("lsoa"))
       .join(postCodes, postCodes("LSOA Code") === locationsDB("lsoa"))
-      .join(earningsDB, postCodes("Average Income") === earningsDB("average_income"))
       .join(earningsDB, postCodes("Average Income") === earningsDB("average_income"))
       .join(timeDB, unionCrimes("month") === timeDB("month") && unionCrimes("year") === timeDB("year"))
       .join(airQuality, unionCrimes("month") === airQuality("month")  && unionCrimes("year") === airQuality("year"))
