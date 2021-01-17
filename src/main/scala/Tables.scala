@@ -16,7 +16,7 @@ object Tables {
     sqlContext.sql("""DROP TABLE IF EXISTS `facts`""")
 
     sqlContext.sql("""CREATE TABLE `location` (
-       'location_id' int,
+       `location_id` int,
        `lsoa` string,
        `borough` string,
        `district` string,
@@ -37,8 +37,8 @@ object Tables {
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
     sqlContext.sql("""CREATE TABLE `earnings` (
-       'earnings_id' int,
-       'average_income' int
+       `earnings_id` int,
+       `average_income` int
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
@@ -48,10 +48,10 @@ object Tables {
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
     sqlContext.sql("""CREATE TABLE `time` (
-        'time_id' int,
-        'month' int,
-        'year' int,
-        'quarter' int
+        `time_id` int,
+        `month` int,
+        `year` int,
+        `quarter` int
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
@@ -62,10 +62,10 @@ object Tables {
 
 
     sqlContext.sql("""CREATE TABLE `pm10` (
-        'pm10_id' int,
-        'range_from' int,
-        'range_to' int,
-        'state_description' string
+        `pm10_id` int,
+        `range_from` int,
+        `range_to` int,
+        `state_description` string
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
@@ -75,10 +75,10 @@ object Tables {
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
     sqlContext.sql("""CREATE TABLE `pm2.5` (
-        'pm25_id' int,
-        'range_from' int,
-        'range_to' int,
-        'state_description' string
+        `pm25_id` int,
+        `range_from` int,
+        `range_to` int,
+        `state_description` string
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
@@ -88,9 +88,9 @@ object Tables {
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
     sqlContext.sql("""CREATE TABLE `type_of_crime` (
-        'type_id' int,
-        'minor' string,
-        'major' string
+        `type_id` int,
+        `minor` string,
+        `major` string
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
@@ -100,14 +100,14 @@ object Tables {
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
     sqlContext.sql("""CREATE TABLE `facts` (
-        'fact_id' int,
-        'value' int,
-        'earnings_fk' int,
-        'location_fk' int,
-        'time_fk' int,
-        'pm10_fk' int,
-        'pm25_fk' int,
-        'type_fk' int
+        `fact_id` int,
+        `value` int,
+        `earnings_fk` int,
+        `location_fk` int,
+        `time_fk` int,
+        `pm10_fk` int,
+        `pm25_fk` int,
+        `type_fk` int
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'

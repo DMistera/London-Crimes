@@ -11,10 +11,9 @@ object Earnings {
     val (postCodes, crimes1, crimes2, airQuality) = Reader.read(sqlContext)
 
     postCodes
-      .select("Average Income")
+      .select(col("Average Income") as "average_income")
       .distinct()
       .withColumn("earnings_id", monotonically_increasing_id())
-      .withColumn("average_income", col("Average Income"))
       .write.insertInto("earnings")
   }
 }
