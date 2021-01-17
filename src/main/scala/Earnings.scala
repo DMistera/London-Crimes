@@ -12,7 +12,7 @@ object Earnings {
 
     postCodes
       .select(col("Average Income") as "average_income")
-      .distinct()
+      .distinct().na.drop("all")
       .withColumn("earnings_id", monotonically_increasing_id())
       .write.insertInto("earnings")
   }

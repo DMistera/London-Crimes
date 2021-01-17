@@ -6,7 +6,7 @@ import org.apache.spark.sql.types.IntegerType
 object Location {
   def main(args: Array[String]): Unit = {
     val sqlContext = SparkSession.builder()
-      .appName("EarningsETL")
+      .appName("LocationETL")
       .enableHiveSupport()
       .getOrCreate()
     val (postCodes, crimes1, crimes2, airQuality) = Reader.read(sqlContext)

@@ -1,21 +1,12 @@
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.{SQLContext, SparkSession}
+spark.sql("""DROP TABLE IF EXISTS `location`""")
+spark.sql("""DROP TABLE IF EXISTS `earnings`""")
+spark.sql("""DROP TABLE IF EXISTS `time`""")
+spark.sql("""DROP TABLE IF EXISTS `pm10`""")
+spark.sql("""DROP TABLE IF EXISTS `pm25`""")
+spark.sql("""DROP TABLE IF EXISTS `type_of_crime`""")
+spark.sql("""DROP TABLE IF EXISTS `facts`""")
 
-object Tables {
-  def main(args: Array[String]): Unit = {
-    val sqlContext = SparkSession.builder()
-      .appName("EarningsETL")
-      .enableHiveSupport()
-      .getOrCreate()
-    sqlContext.sql("""DROP TABLE IF EXISTS `location`""")
-    sqlContext.sql("""DROP TABLE IF EXISTS `earnings`""")
-    sqlContext.sql("""DROP TABLE IF EXISTS `time`""")
-    sqlContext.sql("""DROP TABLE IF EXISTS `pm10`""")
-    sqlContext.sql("""DROP TABLE IF EXISTS `pm2.5`""")
-    sqlContext.sql("""DROP TABLE IF EXISTS `type_of_crime`""")
-    sqlContext.sql("""DROP TABLE IF EXISTS `facts`""")
-
-    sqlContext.sql("""CREATE TABLE `location` (
+spark.sql("""CREATE TABLE `location` (
        `location_id` int,
        `lsoa` string,
        `borough` string,
@@ -27,7 +18,7 @@ object Tables {
        `built_up_area` string,
        `households` int,
        `population` int,
-       'water_company' string
+       `water_company` string
        )
       ROW FORMAT SERDE
        'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
@@ -36,7 +27,7 @@ object Tables {
       OUTPUTFORMAT
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
-    sqlContext.sql("""CREATE TABLE `earnings` (
+spark.sql("""CREATE TABLE `earnings` (
        `earnings_id` int,
        `average_income` int
        )
@@ -47,7 +38,7 @@ object Tables {
       OUTPUTFORMAT
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
-    sqlContext.sql("""CREATE TABLE `time` (
+spark.sql("""CREATE TABLE `time` (
         `time_id` int,
         `month` int,
         `year` int,
@@ -61,7 +52,7 @@ object Tables {
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
 
-    sqlContext.sql("""CREATE TABLE `pm10` (
+spark.sql("""CREATE TABLE `pm10` (
         `pm10_id` int,
         `range_from` int,
         `range_to` int,
@@ -74,7 +65,7 @@ object Tables {
       OUTPUTFORMAT
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
-    sqlContext.sql("""CREATE TABLE `pm2.5` (
+spark.sql("""CREATE TABLE `pm25` (
         `pm25_id` int,
         `range_from` int,
         `range_to` int,
@@ -87,7 +78,7 @@ object Tables {
       OUTPUTFORMAT
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
-    sqlContext.sql("""CREATE TABLE `type_of_crime` (
+spark.sql("""CREATE TABLE `type_of_crime` (
         `type_id` int,
         `minor` string,
         `major` string
@@ -99,7 +90,7 @@ object Tables {
       OUTPUTFORMAT
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
-    sqlContext.sql("""CREATE TABLE `facts` (
+spark.sql("""CREATE TABLE `facts` (
         `fact_id` int,
         `value` int,
         `earnings_fk` int,
@@ -116,20 +107,18 @@ object Tables {
       OUTPUTFORMAT
        'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'""")
 
-    sqlContext.sql(
-      """INSERT INTO pm2.5 VALUES
-        (0, 35, 'Low'),
-        (35, 53, 'Moderate'),
-        (53, 70, 'High'),
-        (70, 999, 'Very High');
+spark.sql(
+  """INSERT INTO pm25 VALUES
+        (1, 0, 35, 'Low'),
+        (2, 35, 53, 'Moderate'),
+        (3, 53, 70, 'High'),
+        (4, 70, 999, 'Very High');
         """)
 
-    sqlContext.sql(
-      """INSERT INTO pm10 VALUES
-        (0, 50, 'Low'),
-        (50, 75, 'Moderate'),
-        (75, 100, 'High'),
-        (100, 999, 'Very High');
+spark.sql(
+  """INSERT INTO pm10 VALUES
+        (1, 0, 50, 'Low'),
+        (2, 50, 75, 'Moderate'),
+        (3, 75, 100, 'High'),
+        (4, 100, 999, 'Very High');
         """)
-  }
-}

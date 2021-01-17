@@ -15,9 +15,9 @@ object Reader {
   }
 
   def parseAirQualityLine(line: String): String = {
-    val pattern = "^(.+) of (.+)-(.+) is (.+) PM10 Particulate: (.+), (.+) PM2.5 Particulate: (.+), (.+)$".r
+    val pattern = "^(.+) of (.+)-(.+) is (.+) PM10 Particulate: (.+), PM2\\.5 Particulate: (.+), (.+)$".r
     line match {
-      case pattern(_, month, year, _, pm10, _, pm25, _) =>  monthToInt(month).toString + ";" + (year.toInt + 2000).toString + ";" + pm10 + ";" + pm25
+      case pattern(_, month, year, _, pm10, pm25, _) =>  monthToInt(month).toString + ";" + (year.toInt + 2000).toString + ";" + pm10 + ";" + pm25
       case _ => ""
     }
   }
@@ -43,12 +43,12 @@ object Reader {
     val airQuality = sqlContext.read.textFile("london-air-quality.txt").
       map(line => parseAirQualityLine(line)).
       filter(!_.equals("")).
-      withColumn("split", split(col("value"), ";")).
+      withColumn("split", split($"value", ";")).
       select(
-        col("split").getItem(0).as("month").cast("int"),
-        col("split").getItem(1).as("year").cast("int"),
-        col("split").getItem(2).as("pm10").cast("float"),
-        col("split").getItem(3).as("pm25").cast("float")
+        $"split".getItem(0).as("month").cast("int"),
+        $"split".getItem(1).as("year").cast("int"),
+        $"split".getItem(2).as("pm10").cast("float"),
+        $"split".getItem(3).as("pm25").cast("float")
       ).distinct()
 
     (postCodes, crimes1, crimes2, airQuality)

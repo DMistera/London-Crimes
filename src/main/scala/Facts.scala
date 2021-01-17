@@ -5,7 +5,7 @@ import org.apache.spark.sql.functions.monotonically_increasing_id
 object Facts {
   def main(args: Array[String]): Unit = {
     val sqlContext = SparkSession.builder()
-      .appName("EarningsETL")
+      .appName("FactsETL")
       .enableHiveSupport()
       .getOrCreate()
     val (postCodes, crimes1, crimes2, airQuality) = Reader.read(sqlContext)
