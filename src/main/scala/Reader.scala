@@ -2,7 +2,7 @@ import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
 import LondonCrimes.parseAirQualityLine
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.sql.functions.{col, split}
 
 object Reader {
@@ -22,7 +22,7 @@ object Reader {
     }
   }
 
-  def read(sqlContext: SQLContext) = {
+  def read(sqlContext: SparkSession) = {
     import sqlContext.implicits._
 
     val postCodes = sqlContext.read.format("csv")

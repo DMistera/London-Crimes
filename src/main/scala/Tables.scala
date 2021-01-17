@@ -1,12 +1,12 @@
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.{SQLContext, SparkSession}
 
 object Tables {
   def main(args: Array[String]): Unit = {
-    val conf: SparkConf = new SparkConf().
-      setMaster("local").setAppName("SparkWordCount")
-    val sc: SparkContext = new SparkContext(conf)
-    val sqlContext = new SQLContext(sc)
+    val sqlContext = SparkSession.builder()
+      .appName("EarningsETL")
+      .enableHiveSupport()
+      .getOrCreate()
     sqlContext.sql("""DROP TABLE IF EXISTS `location`""")
     sqlContext.sql("""DROP TABLE IF EXISTS `earnings`""")
     sqlContext.sql("""DROP TABLE IF EXISTS `time`""")
