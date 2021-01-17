@@ -22,6 +22,7 @@ object Time {
       .withColumn("year", col("year").cast(IntegerType))
       .withColumn("month", col("month").cast(IntegerType))
       .withColumn("quarter", (col("month")/4).cast(IntegerType))
+      .select("time_id", "month", "year", "quarter")
       .write.insertInto("time")
   }
 }
