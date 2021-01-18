@@ -2,7 +2,7 @@ import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
 import org.apache.spark.sql.{SQLContext, SparkSession}
-import org.apache.spark.sql.functions.{col, split}
+import org.apache.spark.sql.functions.{col, expr, split}
 
 object Reader {
 
@@ -27,7 +27,20 @@ object Reader {
     val postCodes = sqlContext.read.format("csv")
       .option("header", "true")
       .option("inferSchema", "true")
-      .load("london-postcodes.csv").cache()
+      .load("london-postcodes.csv")
+      .where("`In Use?` = 'Yes'")
+      .where("`Water company` is not null and population is not null and households is not null")
+      .groupBy("LSOA Code",  "District"
+        , "Ward", "Constituency", "Parish"
+        , "Rural/Urban", "Built up area", "Water company"
+      )
+      .agg(
+        expr("round(avg(population)) as Population")
+        , expr("round(avg(households)) as Households")
+        , expr("round(avg(`Average Income`)) as `Average Income`")
+      )
+
+      .cache()
 
     val crimes1 = sqlContext.read.format("csv")
       .option("header", "true")
