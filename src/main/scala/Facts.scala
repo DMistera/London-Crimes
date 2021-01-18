@@ -2,6 +2,7 @@ import org.apache.spark.sql.expressions.Window
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{SQLContext, SparkSession}
 import org.apache.spark.sql.functions.{col, monotonically_increasing_id, row_number}
+import org.apache.spark.sql.types.IntegerType
 
 object Facts {
   def main(args: Array[String]): Unit = {
@@ -35,8 +36,8 @@ object Facts {
       .join(earningsDB, postCodes("Average Income") === earningsDB("average_income"))
       .join(timeDB, unionCrimes("month") === timeDB("month") && unionCrimes("year") === timeDB("year"))
       .join(airQuality, unionCrimes("month") === airQuality("month")  && unionCrimes("year") === airQuality("year"))
-      .join(pm10DB, airQuality("pm10") >= pm10DB("range_from") && airQuality("pm10") < pm10DB("range_to"))
-      .join(pm25DB, airQuality("pm25") >= pm25DB("range_from") && airQuality("pm25") < pm25DB("range_to"))
+      .join(pm10DB, airQuality("pm10").cast(IntegerType) >= pm10DB("range_from") && airQuality("pm10").cast(IntegerType) < pm10DB("range_to"))
+      .join(pm25DB, airQuality("pm25").cast(IntegerType) >= pm25DB("range_from") && airQuality("pm25").cast(IntegerType) < pm25DB("range_to"))
       .join(typeDB, unionCrimes("minor_category") === typeDB("minor") && unionCrimes("major_category") === typeDB("major"))
       .select(
         unionCrimes("value"),

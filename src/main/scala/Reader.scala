@@ -57,10 +57,10 @@ object Reader {
       filter(!_.equals("")).
       withColumn("split", split($"value", ";")).
       select(
-        $"split".getItem(1).as("month").cast("int"),
-        $"split".getItem(2).as("year").cast("int"),
-        $"split".getItem(3).as("pm10").cast("float"),
-        $"split".getItem(4).as("pm25").cast("float")
+        $"split".getItem(0).as("month").cast("int"),
+        $"split".getItem(1).as("year").cast("int"),
+        $"split".getItem(2).as("pm10").cast("float"),
+        $"split".getItem(3).as("pm25").cast("float")
       ).distinct()
 
     (postCodes, crimes1, crimes2, airQuality)
