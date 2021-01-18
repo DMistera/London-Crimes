@@ -24,7 +24,6 @@ object Facts {
       .select("lsoa_code", "value", "month", "year", "minor_category", "major_category")
       .join(locationsDB, unionCrimes("lsoa_code") === locationsDB("lsoa"))
       .join(postCodes, postCodes("LSOA Code") === locationsDB("lsoa")
-        && postCodes("Borough") === locationsDB("borough")
         && postCodes("District") === locationsDB("district")
         && postCodes("Ward") === locationsDB("ward")
         && postCodes("Constituency") === locationsDB("constituency")
