@@ -10,7 +10,7 @@ object Reader {
     val date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse(month)
     val cal = Calendar.getInstance
     cal.setTime(date)
-    cal.get(Calendar.MONTH)
+    cal.get(Calendar.MONTH) + 1
   }
 
   def parseAirQualityLine(line: String): String = {
